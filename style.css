@@ -1,0 +1,21 @@
+.board {
+    display: grid;
+    margin: auto;
+    margin-top: 20px;
+    height: 500px;
+    width: 500px;
+    gap: 4px;
+    background: black;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.box {
+    background: white;
+    text-align: center;
+    font-size: 120px;
+}
+
+.box:hover {
+    background: blue;
+}
