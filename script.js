@@ -1,3 +1,5 @@
+const restart = document.querySelector("button");
+
 let Gameboard = (() => {
     let board = Array.from(document.querySelectorAll(".box"));
     return {board}
@@ -31,10 +33,14 @@ let gameplayController = (() => {
             if (Gameboard.board[i].textContent === "X") {
                 if (!playerX.boxesOwned.includes(i)) {
                     playerX.boxesOwned.push(i);
+                    Gameboard.board[i].classList.remove("box");
+                    Gameboard.board[i].classList.add("box-filled");
                 }
             } else if (Gameboard.board[i].textContent === "O"){
                 if (!playerO.boxesOwned.includes(i)) {
                     playerO.boxesOwned.push(i);
+                    Gameboard.board[i].classList.remove("box");
+                    Gameboard.board[i].classList.add("box-filled");
                 }
             }
         }
@@ -67,19 +73,45 @@ let gameplayController = (() => {
         [6, 7, 8]
     ]
 
+    function removeHighlightsAndEvents() {
+        Gameboard.board.forEach(
+            x => {
+                    x.classList.remove("box");
+                    x.classList.add("box-filled");
+                    x.removeEventListener("click", putMark);
+                }
+        )
+    }
+
     function checkWinner() {
         winningCombinations.forEach(
             x => {
                 if (playerX.boxesOwned.includes(x[0]) && playerX.boxesOwned.includes(x[1]) && playerX.boxesOwned.includes(x[2])) {
+                    removeHighlightsAndEvents();
                     return alert("X wins!")
                 } else if (playerO.boxesOwned.includes(x[0]) && playerO.boxesOwned.includes(x[1]) && playerO.boxesOwned.includes(x[2])) {
+                    removeHighlightsAndEvents();
                     return alert("O wins!")
-                } else {
-                    switchTurnPlayer();
                 }
             }
         )
     }
 
-    return {playerX, playerO, turnPlayer, putMark}
+    function clear(e) {
+        Gameboard.board.forEach(
+            x => {
+                x.textContent = "";
+                x.classList.remove("box-filled");
+                x.classList.add("box");
+                x.addEventListener("click", putMark);
+                playerX.boxesOwned = [];
+                playerO.boxesOwned = [];
+                turnPlayer = playerX;
+            }
+        )
+    }
+
+    restart.addEventListener("click", clear);
+
+    return {playerX, playerO, turnPlayer, putMark, clear}
 })()

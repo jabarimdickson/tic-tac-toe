@@ -1,3 +1,9 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 .board {
     display: grid;
     margin: auto;
@@ -18,4 +24,19 @@
 
 .box:hover {
     background: blue;
+}
+
+.box-filled {
+    background: white;
+    text-align: center;
+    font-size: 120px;
+}
+
+.restart {
+    margin: auto;
+}
+
+button {
+    margin-top: 50px;
+    font-size: 26px;
 }
